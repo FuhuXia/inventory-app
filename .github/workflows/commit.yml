@@ -3,7 +3,13 @@ name: commit
 
 on:
   push:
-
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
 
 jobs:
   lint:
@@ -31,6 +37,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - name: Run tmate
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+        with:
+          limit-access-to-actor: true
       - name: test
         run: make build test
       - name: test extension
