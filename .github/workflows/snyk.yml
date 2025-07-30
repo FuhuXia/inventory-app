@@ -6,8 +6,6 @@ on:   # yamllint disable-line rule:truthy
     branches:
       - main
   workflow_dispatch:
-  schedule:
-    - cron: '*/10 * * * *'  # every day at 12pm UTC
 
 jobs:
   snyk:
